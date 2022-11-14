@@ -16,11 +16,16 @@ export interface AuthState {
   user: User
 };
 
+// Estado inicial do state (auth)
 export const initialAuthState: AuthState = { user: undefined };
 
+// Reducer: Utilizado no module para reconhecer as actions e modificar o state.
 export const authReducer = createReducer(
   initialAuthState,
   on(AuthActions.login, (state, action) => ({
     user: action.user
+  })),
+  on(AuthActions.logout, (state, action) => ({
+    user: undefined
   }))
 );

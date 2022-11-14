@@ -41,6 +41,7 @@ export class LoginComponent implements OnInit {
     this.auth.login(this.formValue.email, this.formValue.password)
       .pipe(
         tap(user => {
+          // Utlizar método dispatch para disparar actions para a store. E modificar/atualizar o state.
           this.store.dispatch(AuthActions.login({user}));
           this.router.navigateByUrl('/courses');
         })
