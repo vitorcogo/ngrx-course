@@ -1,5 +1,5 @@
 import { createFeatureSelector, createSelector } from "@ngrx/store";
-import { authFeatureKey, AuthState } from "./reducers";
+import { authFeatureKey, AuthState } from "./reducers/auth.reducers";
 
 // FeatureSelector: Utilizado para consultar o "objeto/state" dentro da store. Assim tipando a consulta nos selectors.
 export const selectAuthState = createFeatureSelector<AuthState>(authFeatureKey);

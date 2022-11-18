@@ -9,7 +9,7 @@ import {MatButtonModule} from "@angular/material/button";
 import { StoreModule } from '@ngrx/store';
 import {AuthService} from "./auth.service";
 import { EffectsModule } from '@ngrx/effects';
-import * as fromAuth from './store/reducers';
+import * as fromAuth from './store/reducers/auth.reducers';
 import { AuthGuard } from './auth.guard';
 import { AuthEffects } from './store/auth.effects';
 
