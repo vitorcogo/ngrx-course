@@ -21,20 +21,20 @@ import {RouterState, StoreRouterConnectingModule} from '@ngrx/router-store';
 import {EffectsModule} from '@ngrx/effects';
 import {EntityDataModule} from '@ngrx/data';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-
+import { metaReducers, reducers } from './reducers';
+import { AuthGuard } from './auth/auth.guard';
 
 const routes: Routes = [
   {
     path: 'courses',
-    loadChildren: () => import('./courses/courses.module').then(m => m.CoursesModule)
+    loadChildren: () => import('./courses/courses.module').then(m => m.CoursesModule),
+    canActivate: [ AuthGuard ] // Guard para "proteger" rotas
   },
   {
     path: '**',
     redirectTo: '/'
   }
 ];
-
-
 
 @NgModule({
   declarations: [
@@ -51,7 +51,22 @@ const routes: Routes = [
     MatProgressSpinnerModule,
     MatListModule,
     MatToolbarModule,
-    AuthModule.forRoot()
+    AuthModule.forRoot(),
+    StoreModule.forRoot(reducers, {
+      metaReducers,
+      runtimeChecks: {
+        strictStateImmutability: true,
+        strictActionImmutability: true,
+        strictActionSerializability: true,
+        strictStateSerializability: true
+      }
+    }), // Configuração do AppState (State da aplicação geral).
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
+    EffectsModule.forRoot([]), // Configuração dos effects na aplicação.
+    StoreRouterConnectingModule.forRoot({ // Configuração do router debuggind (DevTools)
+      stateKey: 'router', // Reducer key para dados de navegação de rotas
+      routerState: RouterState.Minimal
+    })
   ],
   bootstrap: [AppComponent]
 })
